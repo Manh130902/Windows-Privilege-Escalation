@@ -161,7 +161,7 @@ Với mọi thứ đã sẵn sàng, việc còn lại chỉ là khởi động l
 shutdown /r /t 0
 ```
 Máy khởi động lại và lớp vỏ ban đầu của tôi bị cắt ra; tuy nhiên, sau khoảng 20 giây, shell HỆ THỐNG sẽ xuất hiện trên trình nghe của tôi!
-=======
+
 Máy khởi động lại và lớp vỏ ban đầu của chúng tôi bị cắt ra; tuy nhiên, sau khoảng 20 giây, shell HỆ THỐNG sẽ xuất hiện trên trình nghe của chúng tôi!
 
 ![image-29](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/696d5873-a6a9-4004-9737-4a90b653c774)
